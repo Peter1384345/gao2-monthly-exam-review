@@ -26,6 +26,7 @@
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:66px}
 body{font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Microsoft YaHei","PingFang SC",sans-serif;background-color:var(--bg);background-image:radial-gradient(rgba(30,58,95,.05) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);line-height:1.75;font-size:15px}
+body::before{content:"";position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--navy-deep),var(--gold) 30%,var(--gold) 70%,var(--navy-deep));z-index:300}
 h1,h2,h3{font-family:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;line-height:1.3;color:var(--navy-deep)}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--gold-soft)}
@@ -40,7 +41,7 @@ a{color:inherit;text-decoration:none}
 .navlinks::-webkit-scrollbar{display:none}
 .navlinks a{padding:8px 12px;border-radius:999px;font-size:12.5px;color:var(--ink-soft);white-space:nowrap;transition:.2s}
 .navlinks a:hover{background:var(--gold-soft);color:var(--navy)}
-.navlinks a.on{background:var(--navy);color:#fff}
+.navlinks a.on{background:var(--navy);color:#fff;box-shadow:inset 0 -2px 0 0 var(--gold)}
 
 /* ===== View system ===== */
 .view{display:none}
@@ -109,6 +110,7 @@ section{padding:36px 0 8px}
 .subj-hero .back:hover{background:rgba(255,255,255,.14)}
 .subj-hero h1{color:#fff;font-size:clamp(24px,3.6vw,30px);margin:14px 0 6px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
 .subj-hero h1 .tagline{font-size:13px;font-weight:400;color:rgba(255,255,255,.92);background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);padding:3px 14px;border-radius:999px;letter-spacing:.05em;font-family:"Noto Sans SC",sans-serif}
+.subj-hero h1 .ic{width:30px;height:30px;flex:none;opacity:.96;filter:drop-shadow(0 2px 6px rgba(0,0,0,.28))}
 .subj-hero .scope{font-size:13px;color:rgba(255,255,255,.88)}
 .subj-hero .tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
 .subj-hero .tags span{background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.22);padding:3px 11px;border-radius:999px;font-size:12px}
@@ -121,7 +123,7 @@ section{padding:36px 0 8px}
 .fc.flip .fc-inner{transform:rotateY(180deg)}
 .fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
 .fc-front{background:linear-gradient(160deg,#fff,#F7F9FB)}
-.fc-front .no{font-size:11px;letter-spacing:.08em;color:var(--sc);font-weight:700;margin-bottom:6px}
+.fc-front .no{display:inline-block;font-size:10.5px;letter-spacing:.1em;color:#fff;font-weight:700;margin-bottom:8px;background:linear-gradient(135deg,var(--gold),#A97F2F);padding:3px 10px;border-radius:999px;box-shadow:0 3px 8px rgba(169,127,47,.35)}
 .fc-front .t{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.45}
 .fc-front .tap{position:absolute;right:10px;bottom:8px;font-size:10.5px;color:var(--ink-soft);opacity:.7}
 .fc-back{background:linear-gradient(160deg,#fff,var(--sc-soft));transform:rotateY(180deg);border-top:3px solid var(--gold)}
@@ -220,7 +222,7 @@ section{padding:36px 0 8px}
 .tl-item{display:contents}
 .tl-day{padding:14px 0;font-family:"Noto Serif SC",serif;font-weight:700;color:var(--navy);text-align:right;font-size:14px}
 .tl-mid{position:relative;display:grid;place-items:center}
-.tl-mid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;background:var(--line);transform:translateX(-50%)}
+.tl-mid::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:2px;background:linear-gradient(180deg,transparent,rgba(201,154,60,.6) 14%,rgba(201,154,60,.6) 86%,transparent);transform:translateX(-50%)}
 .tl-item:first-child .tl-mid::before{top:50%}
 .tl-item:last-child .tl-mid::before{bottom:50%}
 .tl-dot{width:13px;height:13px;border-radius:50%;background:var(--gold);border:3px solid #fff;box-shadow:0 0 0 2px var(--gold);z-index:1}
@@ -251,10 +253,32 @@ section{padding:36px 0 8px}
 .chart-card p{font-size:12px;color:var(--ink-soft);margin-bottom:10px}
 #timeChart{width:100%;height:320px}
 
+/* ===== 表格 / 自测 / 计划条 ===== */
+.tbl-wrap{overflow-x:auto}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;border:1px solid #DCE2EA;border-radius:14px;overflow:hidden;background:#fff}
+.tbl th{background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:#fff;padding:10px 13px;font-size:13px;text-align:left;font-weight:600;font-family:"Noto Sans SC",sans-serif}
+.tbl td{padding:9px 13px;font-size:12.5px;border-top:1px solid #E8ECF1;vertical-align:top;color:var(--ink)}
+.tbl tbody tr:nth-child(even){background:#F7F9FC}
+.tbl tbody tr:hover{background:#FBF4E6}
+.tbl td b{color:var(--navy)}
+.qa{margin-top:8px;border:1px solid #DCE2EA;border-radius:12px;background:#fff;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .2s}
+.qa:hover{box-shadow:0 6px 18px rgba(30,58,95,.1);transform:translateY(-2px)}
+.qa summary{list-style:none;padding:12px 14px;font-size:13px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:11px;cursor:pointer;font-family:"Noto Sans SC",sans-serif}
+.qa summary::-webkit-details-marker{display:none}
+.qa .mark{flex:none;width:24px;height:24px;border-radius:8px;background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:var(--gold);display:grid;place-items:center;font-size:11px;font-weight:700;transition:.2s}
+.qa[open] .mark{background:linear-gradient(135deg,var(--gold),#A97F2F);color:#fff}
+.qa .q-t{flex:1}
+.qa .a{padding:11px 14px 13px 49px;font-size:12.5px;color:var(--ink-soft);border-top:1px dashed #E0E5EB;line-height:1.85}
+.plan-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FBF6EA,#F2E8D2);border:1px solid rgba(201,154,60,.4);border-radius:14px;padding:13px 16px;margin-bottom:18px;box-shadow:0 6px 16px rgba(169,127,47,.12)}
+.plan-banner .pb-tag{flex:none;background:linear-gradient(135deg,var(--gold),#A97F2F);color:#fff;font-size:12px;font-weight:700;padding:4px 13px;border-radius:999px;letter-spacing:.08em}
+.plan-banner .pb-txt{font-size:13px;color:var(--ink);line-height:1.7}
+.plan-banner .pb-txt b{color:var(--navy)}
+@media (max-width:720px){.qa .a{padding-left:16px}}
+
 /* ===== Footer / toTop ===== */
 footer{margin-top:40px;padding:24px 0 30px;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent 5%,rgba(201,154,60,.55) 50%,transparent 95%) 1;color:var(--ink-soft);font-size:12px;text-align:center}
 footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
-#toTop{position:fixed;right:22px;bottom:26px;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:none;place-items:center;box-shadow:0 6px 16px rgba(30,58,95,.3);z-index:80}
+#toTop{position:fixed;right:22px;bottom:26px;width:44px;height:44px;border-radius:50%;background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:#fff;border:none;cursor:pointer;display:none;place-items:center;box-shadow:0 8px 20px rgba(30,58,95,.35),0 0 0 1px rgba(201,154,60,.65);z-index:80}
 #toTop.show{display:grid}
 #toast{position:fixed;left:50%;bottom:34px;transform:translateX(-50%) translateY(20px);background:var(--navy);color:#fff;padding:9px 18px;border-radius:999px;font-size:13px;opacity:0;pointer-events:none;transition:.25s;z-index:90}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
@@ -406,36 +430,10 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
     <div class="wrap">
       <div class="sec-head">
         <span class="no">03</span>
-        <div><h2>13 天复习计划</h2><p>以月考日期倒推 · 四个阶段 · 每天 6–7 小时有效学习</p></div>
+        <div><h2>复习计划 · 按剩余天数自动安排</h2><p>根据上方倒计时的剩余天数动态划分阶段，修改考试日期即实时重排</p></div>
         <div class="rule"></div>
       </div>
-      <div class="timeline">
-        <div class="tl-item">
-          <div class="tl-day">第 1–2 天</div>
-          <div class="tl-mid"><span class="tl-dot"></span></div>
-          <div class="tl-content"><h4>摸底诊断 · 定计划</h4><p>各科各做 10 题摸底（或翻错题本），标出薄弱章节；排出每日任务表：6 科各 1 个专项 + 单词 / 默写零散任务。</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-day">第 3–6 天</div>
-          <div class="tl-mid"><span class="tl-dot"></span></div>
-          <div class="tl-content"><h4>回归教材 · 一轮梳理</h4><p>逐章过教材 + 笔记：物理电场与电路、化学反应热与平衡、数学空间向量、生物内环境与神经调节为重点；每天抽 30 分钟补高一基础薄弱点。</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-day">第 7–10 天</div>
-          <div class="tl-mid"><span class="tl-dot"></span></div>
-          <div class="tl-content"><h4>专题刷题 · 错题攻坚</h4><p>按考点做专题（盖斯定律、三段式、建系法、带电粒子、电路、语法专项），做完立即归类错题；英语每天 1 篇阅读 + 词汇滚动。</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-day">第 11–12 天</div>
-          <div class="tl-mid"><span class="tl-dot"></span></div>
-          <div class="tl-content"><h4>真题模拟 · 查漏补缺</h4><p>每天 1–2 套限时卷（理综式安排物理 / 化学 / 生物），严格计时；对答案后把失分点回教材再补一遍。</p></div>
-        </div>
-        <div class="tl-item">
-          <div class="tl-day">第 13 天</div>
-          <div class="tl-mid"><span class="tl-dot"></span></div>
-          <div class="tl-content"><h4>考前调整 · 只看精华</h4><p>只看错题本、公式卡、背诵篇目；不刷新题，早睡，调整生物钟和考试用品（2B 铅笔、黑色签字笔、直尺、橡皮）。</p></div>
-        </div>
-      </div>
+      <div id="planWrap"><!-- 由 renderPlan() 根据剩余天数渲染 --></div>
     </div>
   </section>
 
@@ -476,7 +474,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="语" style="--sc:var(--c-yu);--sc-deep:#A03A28">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>语文<span class="tagline">文言 · 阅读 · 写作</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a3 3 0 0 1 3-3h13v18H7a3 3 0 0 0-3 3V5z"/><path d="M4 19a3 3 0 0 1 3-3h13"/><path d="M9 7h7M9 11h5"/></svg>语文<span class="tagline">文言 · 阅读 · 写作</span></h1>
       <div class="scope">统编选择性必修上册 · 月考范围：文言文单元（先秦诸子）+ 古诗词诵读 + 现代文阅读与写作</div>
       <div class="tags"><span>优先度 · 中</span><span>每天 40–50 分钟</span><span>零散时间背默</span></div>
     </div>
@@ -535,6 +533,29 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-yu);--sc-soft:#FBEFEB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 04</span><div class="t">高分开头结尾</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">开头：设问式（"何谓……？"）、名言引出、场景代入；结尾：首尾呼应、点题升华，忌喊口号。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>文言特殊句式速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:17%"><col style="width:35%"><col style="width:48%"></colgroup>
+          <thead><tr><th>句式</th><th>标志词</th><th>教材常见例句</th></tr></thead>
+          <tbody>
+            <tr><td>判断句</td><td>「……者，……也」「乃 / 即 / 则」</td><td>亚父者，范增也；此则岳阳楼之大观也</td></tr>
+            <tr><td>被动句</td><td>「于」「见……于」「为……所」</td><td>不拘于时；见犯乃死，重负国</td></tr>
+            <tr><td>宾语前置</td><td>否定句 / 疑问句中代词宾语前置</td><td>何以汝为见；大王来何操</td></tr>
+            <tr><td>状语后置</td><td>「于 + 宾」介宾短语后置</td><td>青，取之于蓝，而青于蓝</td></tr>
+            <tr><td>定语后置</td><td>「之……者」结构</td><td>马之千里者，一食或尽粟一石</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>文言词义 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">「君子喻于义」中「喻」意为「明白、懂得」</span></summary><div class="a">正确。「喻」在此为使明白 / 懂得义，与「晓」义近。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">「自矜者不长」中「矜」意为「怜悯」</span></summary><div class="a">错误。「矜」在此为「夸耀」义，整句意为自夸的人不能长久。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">「民之从事」中「之」用于取消句子独立性</span></summary><div class="a">正确。主谓之间的「之」取消独立性，整个短语作全句主语。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">「其正色邪」中「其」表揣测语气</span></summary><div class="a">正确。表推测语气，可译为「大概、或许」，与「邪」呼应构成疑问。</div></details>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-yuwen"></i></div><span class="pct" id="pct-yuwen">0 / 3</span></div>
       <div class="check-grid" id="ck-yuwen"></div>
@@ -547,7 +568,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="数" style="--sc:var(--c-shu);--sc-deep:#1F4E82">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>数学<span class="tagline">空间向量 · 立体几何</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h18v18H3z"/><path d="M3 15h6v6"/><path d="M9 9l6 6M15 9l-6 6"/></svg>数学<span class="tagline">空间向量 · 立体几何</span></h1>
       <div class="scope">人教A版选择性必修第一册 · 月考范围：第1章 空间向量与立体几何（考到空间向量为止）</div>
       <div class="tags"><span>优先度 · 高</span><span>每天 70–90 分钟</span><span>优先级最高</span></div>
     </div>
@@ -592,6 +613,30 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 04</span><div class="t">点到平面距离三步</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">找面内一点 A→求向量 PA 与法向量 n→<span class="hi">d = |PA·n| / |n|</span>。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>空间向量公式速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:24%"><col style="width:48%"><col style="width:28%"></colgroup>
+          <thead><tr><th>名称</th><th>公式</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>数量积</td><td>a·b = |a||b|cosθ = x₁x₂ + y₁y₂ + z₁z₂</td><td><b>垂直 ⟺ a·b = 0</b></td></tr>
+            <tr><td>模长</td><td>|a| = √(x² + y² + z²)</td><td>模长非负</td></tr>
+            <tr><td>夹角</td><td>cosθ = a·b / (|a||b|)</td><td>θ ∈ [0, π]</td></tr>
+            <tr><td>法向量</td><td>n = a × b（行列式展开）</td><td>建系求法常用</td></tr>
+            <tr><td>点面距离</td><td>d = |PA·n| / |n|</td><td>P 为面外一点</td></tr>
+            <tr><td>共线 / 共面</td><td>a = λb；p = xa + yb</td><td>基底表示法</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>概念判断 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">两向量垂直 ⟺ a·b = 0</span></summary><div class="a">正确。数量积为 0 是非零向量垂直的充要条件。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">若 a·b = 0，则 a、b 中至少有一个为零向量</span></summary><div class="a">错误。两个非零向量垂直时数量积同样为 0。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">线面角 θ 满足 sinθ = |a·n| / (|a||n|)</span></summary><div class="a">正确。线面角取方向向量与法向量夹角之余角。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">二面角余弦值恒等于两法向量夹角的余弦</span></summary><div class="a">错误。需结合图形判断锐钝角，符号可能相反。</div></details>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-shuxue"></i></div><span class="pct" id="pct-shuxue">0 / 3</span></div>
       <div class="check-grid" id="ck-shuxue"></div>
@@ -604,7 +649,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="英" style="--sc:var(--c-ying);--sc-deep:#2A6B45">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>英语<span class="tagline">词汇 · 语法 · 阅读</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8H4l2.5-2.5A8 8 0 1 1 21 12z"/><path d="M9.5 11h.01M13.5 11h.01M17 11h.01"/></svg>英语<span class="tagline">词汇 · 语法 · 阅读</span></h1>
       <div class="scope">人教版选择性必修一 · 月考范围：Unit 1–5（整册已教完，只考部分内容）+ 高一必修词汇回顾</div>
       <div class="tags"><span>优先度 · 中</span><span>每天 40–50 分钟</span><span>词汇用零散时间</span></div>
     </div>
@@ -684,6 +729,34 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">替换 08</span><div class="t">高级替换 2</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">many → a variety of；very → extremely / considerably；think → hold the view that</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>不规则动词高频速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:26%"><col style="width:37%"><col style="width:37%"></colgroup>
+          <thead><tr><th>原形</th><th>过去式</th><th>过去分词</th></tr></thead>
+          <tbody>
+            <tr><td>arise</td><td>arose</td><td>arisen</td></tr>
+            <tr><td>bear</td><td>bore</td><td>borne</td></tr>
+            <tr><td>bind</td><td>bound</td><td>bound</td></tr>
+            <tr><td>cling</td><td>clung</td><td>clung</td></tr>
+            <tr><td>flee</td><td>fled</td><td>fled</td></tr>
+            <tr><td>forbid</td><td>forbade</td><td>forbidden</td></tr>
+            <tr><td>forgive</td><td>forgave</td><td>forgiven</td></tr>
+            <tr><td>hang</td><td>hung（悬挂）/ hanged（绞死）</td><td>hung / hanged</td></tr>
+            <tr><td>lie</td><td>lay</td><td>lain</td></tr>
+            <tr><td>rise</td><td>rose</td><td>risen</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>语法易错 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">suggest 后接 that 从句时用虚拟语气（should + 动词原形）</span></summary><div class="a">正确。表「建议」时从句用 should do，should 可省略。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">The teacher with his students are going to the museum. 主谓一致正确</span></summary><div class="a">错误。with 短语不改变主语，谓语应与 the teacher 一致，用 is。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">It is high time that we go to bed. 语法正确</span></summary><div class="a">错误。high time 后从句用过去式：…that we went to bed。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">insist 表「坚持主张」用虚拟，表「坚持说」用陈述语气</span></summary><div class="a">正确。两义两语气，是高频考点。</div></details>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-yingyu"></i></div><span class="pct" id="pct-yingyu">0 / 3</span></div>
       <div class="check-grid" id="ck-yingyu"></div>
@@ -696,7 +769,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="物" style="--sc:var(--c-wu);--sc-deep:#4F3F96">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>物理<span class="tagline">静电场 · 电路及其应用</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="2"/><ellipse cx="12" cy="12" rx="10" ry="4.2"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(60 12 12)"/><ellipse cx="12" cy="12" rx="10" ry="4.2" transform="rotate(120 12 12)"/></svg>物理<span class="tagline">静电场 · 电路及其应用</span></h1>
       <div class="scope">人教版必修第三册 · 月考范围：第9章 静电场及其应用 + 第10章 静电场中的能量 + 第11章 电路及其应用</div>
       <div class="tags"><span>优先度 · 高</span><span>每天 60–75 分钟</span><span>优先级最高</span></div>
     </div>
@@ -766,6 +839,30 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 06</span><div class="t">电源输出特性</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">U–I 图：纵截距 = E、斜率绝对值 = r；<span class="hi">输出功率最大时外电阻 R = r</span>。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>电场 + 电路公式速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:24%"><col style="width:44%"><col style="width:32%"></colgroup>
+          <thead><tr><th>名称</th><th>公式</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>库仑定律</td><td>F = kq₁q₂ / r²</td><td>k = 9×10⁹ N·m²/C²</td></tr>
+            <tr><td>场强</td><td>E = F/q = kQ/r² = U/d</td><td>匀强电场用 U/d</td></tr>
+            <tr><td>电势能 / 电势差</td><td>W_AB = qU_AB；Ep = qφ</td><td>做功与路径无关</td></tr>
+            <tr><td>电容</td><td>C = Q/U；平行板 C = εS / (4πkd)</td><td>断源 Q 定、连源 U 定</td></tr>
+            <tr><td>电流 / 电阻</td><td>I = q/t；R = U/I = ρL/S</td><td>定义式 vs 决定式</td></tr>
+            <tr><td>电功率 / 焦耳</td><td>P = UI；Q = I²Rt</td><td>纯电阻可 P = U²/R</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>概念判断 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">场强大处电势一定高</span></summary><div class="a">错误。二者无关，正负点电荷附近场强都大但电势高低相反。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">电场力做正功，电势能减小</span></summary><div class="a">正确。电场力做正功等于电势能减少量。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">U = Ed 中 d 是沿场强方向的距离</span></summary><div class="a">正确。两点沿场强方向的距离，斜线要投影。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">R = U/I 是电阻的决定式</span></summary><div class="a">错误。R = U/I 是定义式，决定式是 R = ρL/S。</div></details>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-wuli"></i></div><span class="pct" id="pct-wuli">0 / 3</span></div>
       <div class="check-grid" id="ck-wuli"></div>
@@ -778,7 +875,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="化" style="--sc:var(--c-hua);--sc-deep:#136B6D">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>化学<span class="tagline">反应热 · 速率与平衡</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M10 3h4M11 3v5.5L16 17a3 3 0 0 1-8 0l5-8.5"/><path d="M9.5 13.5h5"/></svg>化学<span class="tagline">反应热 · 速率与平衡</span></h1>
       <div class="scope">人教版选择性必修1《化学反应原理》 · 月考范围：第1章 反应热 + 第2章 化学反应速率与化学平衡</div>
       <div class="tags"><span>优先度 · 高</span><span>每天 55–70 分钟</span><span>优先级高</span></div>
     </div>
@@ -837,6 +934,30 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 06</span><div class="t">平衡移动判断流程</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">先看条件改变（浓度 / 压强 / 温度）→ 找受影响的量 → 勒夏特列「只减弱不消除」→ 下结论。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>热化学 + 平衡公式速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:22%"><col style="width:52%"><col style="width:26%"></colgroup>
+          <thead><tr><th>名称</th><th>内容</th><th>备注</th></tr></thead>
+          <tbody>
+            <tr><td>反应热</td><td>ΔH = 生成物总能量 − 反应物总能量 = 反应物键能 − 生成物键能</td><td>单位 kJ/mol</td></tr>
+            <tr><td>盖斯定律</td><td>目标反应 ΔH = 分步反应 ΔH 的代数和</td><td>与途径无关</td></tr>
+            <tr><td>反应速率</td><td>v = Δc / Δt</td><td>不同物质数值可不同</td></tr>
+            <tr><td>平衡常数</td><td>K = [生成物]^幂 / [反应物]^幂</td><td><b>只与温度有关</b></td></tr>
+            <tr><td>Q 判向</td><td>Q &gt; K 逆向；Q &lt; K 正向</td><td>任意时刻可判</td></tr>
+            <tr><td>转化率</td><td>α = 变化量 / 起始量 ×100%</td><td>三段式基础</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>概念判断 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">ΔH 的单位是 kJ/mol，数值与化学计量数成正比</span></summary><div class="a">正确。计量数翻倍 ΔH 也翻倍，单位不变。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">温度升高，任何反应平衡都正向移动</span></summary><div class="a">错误。升温利于吸热方向，放热反应会逆向移动。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">增大压强，平衡一定向气体分子数减小方向移动</span></summary><div class="a">错误。反应前后气体计量数相等时，压强改变不影响平衡。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">催化剂能改变平衡常数 K 的数值</span></summary><div class="a">错误。催化剂只改变反应速率，不改变平衡与 K。</div></details>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-huaxue"></i></div><span class="pct" id="pct-huaxue">0 / 3</span></div>
       <div class="check-grid" id="ck-huaxue"></div>
@@ -849,7 +970,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
   <div class="subj-hero" data-subj="生" style="--sc:var(--c-sheng);--sc-deep:#2B6B38">
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
-      <h1>生物<span class="tagline">稳态 · 神经与激素调节</span></h1>
+      <h1><svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="3.5"/><path d="M12 3.5v2M12 18.5v2M3.5 12h2M18.5 12h2"/></svg>生物<span class="tagline">稳态 · 神经与激素调节</span></h1>
       <div class="scope">人教版选择性必修1《稳态与调节》 · 月考范围：第1章 内环境与稳态 + 第2章 神经调节 + 第3章第1节 激素与内分泌系统</div>
       <div class="tags"><span>优先度 · 中</span><span>每天 45–60 分钟</span><span>优先背记</span></div>
     </div>
@@ -906,6 +1027,31 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 05</span><div class="t">神经 vs 体液调节</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">神经：快、准、短；体液：慢、广、长；二者相互配合，<span class="hi">以神经调节为主</span>。</div></div></div></div>
         <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 06</span><div class="t">分级 vs 反馈调节</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">下丘脑 → 垂体 → 靶腺为分级调节；产物增多抑制上游为负反馈（维持稳态的关键）。</div></div></div></div>
       </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>主要激素功能速查</h3>
+      <div class="tbl-wrap">
+        <table class="tbl">
+          <colgroup><col style="width:24%"><col style="width:32%"><col style="width:44%"></colgroup>
+          <thead><tr><th>激素</th><th>分泌部位</th><th>主要功能</th></tr></thead>
+          <tbody>
+            <tr><td>生长激素</td><td>垂体</td><td>促进生长（幼年过多→巨人症）</td></tr>
+            <tr><td>甲状腺激素</td><td>甲状腺</td><td>促进代谢与发育（缺碘→甲状腺肿大）</td></tr>
+            <tr><td>胰岛素</td><td>胰岛 B 细胞</td><td><b>降低</b>血糖</td></tr>
+            <tr><td>胰高血糖素</td><td>胰岛 A 细胞</td><td><b>升高</b>血糖</td></tr>
+            <tr><td>肾上腺素</td><td>肾上腺</td><td>升高血糖、心跳加快</td></tr>
+            <tr><td>抗利尿激素</td><td>下丘脑合成、垂体释放</td><td>促进肾小管、集合管重吸收水</td></tr>
+            <tr><td>性激素</td><td>性腺</td><td>促进生殖器官发育与第二性征</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>概念判断 · 点题判读（点击展开答案）</h3>
+      <details class="qa"><summary><span class="mark">01</span><span class="q-t">血糖升高→胰岛素增多→血糖下降，属于负反馈调节</span></summary><div class="a">正确。结果抑制原因，是维持血糖稳态的核心机制。</div></details>
+      <details class="qa"><summary><span class="mark">02</span><span class="q-t">促甲状腺激素由甲状腺分泌</span></summary><div class="a">错误。由垂体分泌，作用于甲状腺。</div></details>
+      <details class="qa"><summary><span class="mark">03</span><span class="q-t">抗利尿激素由垂体合成</span></summary><div class="a">错误。由下丘脑合成、垂体释放。</div></details>
+      <details class="qa"><summary><span class="mark">04</span><span class="q-t">激素是信息分子，不直接参与细胞代谢</span></summary><div class="a">正确。激素调节代谢但不作为反应物参与。</div></details>
     </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-shengwu"></i></div><span class="pct" id="pct-shengwu">0 / 3</span></div>
@@ -989,6 +1135,43 @@ document.addEventListener('click', function(e){
   if (card){ card.classList.toggle('flip'); }
 });
 
+/* ===== 复习计划：按剩余天数动态渲染 ===== */
+function planStages(d){
+  var s = [], add = function(t, h, p, m){ s.push({t:t, h:h, p:p, m:m}); };
+  if (d <= 0){ add('今日应考 · 只看精华', '考试当天', '只看错题本、公式卡、背诵篇目；早睡，备好考试用品（2B 铅笔、黑色签字笔、直尺、橡皮）。', '调整状态'); return s; }
+  if (d === 1){ add('考前调整 · 只看精华', '第 1 天', '只看错题本、公式卡、背诵篇目；不刷新题，早睡，调整生物钟。', '只看精华'); return s; }
+  if (d === 2){ add('真题模拟 · 查漏补缺', '第 1 天', '限时 1 套综合卷（理综式安排物理 / 化学 / 生物），对答案后把失分点回教材补一遍。', '限时模拟'); add('考前调整 · 只看精华', '第 2 天', '只看错题本、公式卡、背诵篇目；不刷新题，早睡。', '只看精华'); return s; }
+  if (d <= 5){ add('摸底诊断 · 定计划', '第 1 天', '各科各做 10 题摸底（或翻错题本），标出薄弱章节，排出每日任务表。', '摸底定位');
+    add('回归教材 · 专题刷题', '第 2–' + (d - 1) + ' 天', '快速过教材重点：物理电场与电路、化学反应热与平衡、数学空间向量、生物神经调节；随后按考点刷专题（盖斯定律、三段式、建系法、带电粒子），英语每天 1 篇阅读 + 词汇。', '专题攻坚');
+    add('考前调整 · 只看精华', '第 ' + d + ' 天', '只看错题本、公式卡、背诵篇目；不刷新题，早睡。', '只看精华'); return s; }
+  if (d <= 9){ var a = Math.ceil((d - 1) * 0.45);
+    add('摸底诊断 · 定计划', '第 1 天', '各科各做 10 题摸底（或翻错题本），标出薄弱章节，排出每日任务表。', '摸底定位');
+    add('回归教材 · 一轮梳理', '第 2–' + (1 + a) + ' 天', '逐章过教材 + 笔记：物理电场与电路、化学反应热与平衡、数学空间向量、生物内环境与神经调节为重点；每天 30 分钟补高一基础（平面向量、受力分析、物质的量）。', '回归教材');
+    add('专题刷题 · 错题攻坚', '第 ' + (2 + a) + '–' + (d - 1) + ' 天', '按考点做专题（盖斯定律、三段式、建系法、带电粒子、电路、语法专项），做完立即归类错题；英语每天 1 篇阅读 + 词汇滚动。', '专题刷题');
+    add('考前调整 · 只看精华', '第 ' + d + ' 天', '只看错题本、公式卡、背诵篇目；不刷新题，早睡。', '只看精华'); return s; }
+  var a = Math.ceil((d - 1) * 0.4), b = Math.ceil((d - 1) * 0.3), c = (d - 1) - a - b;
+  add('摸底诊断 · 定计划', '第 1 天', '各科各做 10 题摸底（或翻错题本），标出薄弱章节，排出每日任务表。', '摸底定位');
+  add('回归教材 · 一轮梳理', '第 2–' + (1 + a) + ' 天', '逐章过教材 + 笔记：物理电场与电路、化学反应热与平衡、数学空间向量、生物内环境与神经调节为重点；每天 30 分钟补高一基础。', '回归教材');
+  add('专题刷题 · 错题攻坚', '第 ' + (2 + a) + '–' + (1 + a + b) + ' 天', '按考点做专题（盖斯定律、三段式、建系法、带电粒子、电路、语法专项），做完立即归类错题；英语每天 1 篇阅读 + 词汇滚动。', '专题刷题');
+  add('真题模拟 · 查漏补缺', '第 ' + (2 + a + b) + '–' + (d - 1) + ' 天', '每天 1–2 套限时卷（理综式安排物理 / 化学 / 生物），严格计时；对答案后把失分点回教材再补一遍。', '真题模拟');
+  add('考前调整 · 只看精华', '第 ' + d + ' 天', '只看错题本、公式卡、背诵篇目；不刷新题，早睡，调整生物钟和考试用品。', '只看精华');
+  return s;
+}
+function renderPlan(){
+  var d = (typeof window.PLAN_DAYS === 'number') ? window.PLAN_DAYS : 13;
+  var wrap = document.getElementById('planWrap');
+  if (!wrap) return;
+  var st = planStages(d);
+  var cur = st[0];
+  var html = '<div class="plan-banner"><span class="pb-tag">今日定位</span><div class="pb-txt">距考试 <b>' + d + ' 天</b> · 进入「<b>' + cur.t + '</b>」：' + cur.m + '</div></div>';
+  html += '<div class="timeline">';
+  for (var i = 0; i < st.length; i++){
+    html += '<div class="tl-item"><div class="tl-day">' + st[i].h + '</div><div class="tl-mid"><span class="tl-dot"></span></div><div class="tl-content"><h4>' + st[i].t + '</h4><p>' + st[i].p + '</p></div></div>';
+  }
+  html += '</div>';
+  wrap.innerHTML = html;
+}
+
 /* ===== 倒计时 ===== */
 (function(){
   var input = $('#examDate'), num = $('#cdNum'), KEY = 'exam-date';
@@ -996,11 +1179,15 @@ document.addEventListener('click', function(e){
   if (saved) input.value = saved;
   function calc(){
     var val = input.value;
-    if (!val) return;
-    store(KEY, val);
-    var t = new Date(val + 'T00:00:00'), today = new Date(); today.setHours(0,0,0,0);
-    var d = Math.round((t - today) / 86400000);
+    var d = 13;
+    if (val){
+      store(KEY, val);
+      var t = new Date(val + 'T00:00:00'), today = new Date(); today.setHours(0,0,0,0);
+      d = Math.round((t - today) / 86400000);
+    }
     num.textContent = d >= 0 ? d : '已过';
+    window.PLAN_DAYS = d >= 0 ? d : 0;
+    if (window.renderPlan) renderPlan();
   }
   $('#cdSet').addEventListener('click', calc);
   calc();
