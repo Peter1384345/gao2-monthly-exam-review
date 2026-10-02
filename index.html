@@ -285,10 +285,18 @@ section{padding:36px 0 8px}
 .view-hero h1 .tagline{font-size:12.5px;font-weight:400;color:rgba(255,255,255,.92);background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.24);padding:3px 13px;border-radius:999px;letter-spacing:.05em;font-family:"Noto Sans SC",sans-serif}
 .view-hero .sub{font-size:13px;color:rgba(255,255,255,.86);margin-top:4px}
 .map-tabs,.train-tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
-.map-tabs button,.train-tabs button{border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;transition:.2s}
-.map-tabs button:hover,.train-tabs button:hover{border-color:var(--gold);color:var(--navy)}
+.map-tabs button,.train-tabs button,.map-modes button{border:1px solid var(--line);background:#fff;color:var(--ink-soft);padding:8px 16px;border-radius:999px;font-size:13px;cursor:pointer;font-family:inherit;transition:.2s}
+.map-tabs button:hover,.train-tabs button:hover,.map-modes button:hover{border-color:var(--gold);color:var(--navy)}
+.map-modes button.on{background:linear-gradient(135deg,#C99A3C,#A97F2F);color:#fff;border-color:transparent;box-shadow:0 6px 16px rgba(201,154,60,.35)}
+.map-modes{display:flex;gap:8px;flex-wrap:wrap}
 .map-tabs button.on,.train-tabs button.on{background:linear-gradient(135deg,#162B47,#2A4D7A);color:#fff;border-color:transparent;box-shadow:inset 0 -2px 0 0 var(--gold),0 6px 16px rgba(30,45,70,.22)}
 .map-card{position:relative;border:1px solid rgba(201,154,60,.34);border-radius:18px;background:linear-gradient(155deg,#FFFFFF 0%,#EFF5FC 52%,#FBF2DE 100%);padding:14px;box-shadow:0 12px 32px rgba(30,45,70,.12),inset 0 1px 0 rgba(255,255,255,.95);overflow:hidden}
+.map-card .map-view{width:100%;height:520px;position:relative}
+#map3D{display:none}
+#map3D.on{display:block}
+#mapChart.hide{display:none}
+#mapTip{display:none;position:fixed;z-index:99;max-width:340px;background:rgba(22,43,71,.94);color:#fff;border:1px solid rgba(201,154,60,.6);border-radius:8px;padding:8px 12px;font-size:12.5px;line-height:1.7;pointer-events:none;box-shadow:0 8px 24px rgba(0,0,0,.25)}
+@media (max-width:720px){.map-card .map-view{height:430px}}
 .map-card::before{content:"";position:absolute;top:0;left:26px;right:26px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,rgba(201,154,60,.65),transparent)}
 #mapChart{width:100%;height:520px}
 .map-foot{font-size:12px;color:var(--ink-soft);margin-top:10px;text-align:center;line-height:1.8}
@@ -551,21 +559,27 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
     <div class="wrap">
       <span class="back" data-nav="home">‹ 返回首页</span>
       <h1>六科知识点导图 <span class="tagline">与月考范围同步</span></h1>
-      <div class="sub">章节 → 高频考点 → 关键结论，三级结构；点选学科即时切换，节点可展开折叠。</div>
+      <div class="sub">章节 → 高频考点 → 关键结论；2D / 3D 可切换，点击节点直接跳到对应学科页复习。</div>
     </div>
   </div>
   <section>
     <div class="wrap">
-      <div class="map-tabs" id="mapTabs">
-        <button class="on" data-subj="yuwen">语文</button>
-        <button data-subj="shuxue">数学</button>
-        <button data-subj="yingyu">英语</button>
-        <button data-subj="wuli">物理</button>
-        <button data-subj="huaxue">化学</button>
-        <button data-subj="shengwu">生物</button>
+      <div class="train-head">
+        <div class="map-tabs" id="mapTabs">
+          <button class="on" data-subj="yuwen">语文</button>
+          <button data-subj="shuxue">数学</button>
+          <button data-subj="yingyu">英语</button>
+          <button data-subj="wuli">物理</button>
+          <button data-subj="huaxue">化学</button>
+          <button data-subj="shengwu">生物</button>
+        </div>
+        <div class="map-modes" id="mapModes">
+          <button class="on" data-mode="2d">2D 树状</button>
+          <button data-mode="3d">3D 球体</button>
+        </div>
       </div>
-      <div class="map-card"><div id="mapChart"></div></div>
-      <div class="map-foot">导图结构与各科「最可能考到的地方」「二级结论」一一对应；点击节点圆点可展开 / 收起子项。</div>
+      <div class="map-card"><div id="mapChart" class="map-view"></div><div id="map3D" class="map-view"></div><div id="mapTip"></div></div>
+      <div class="map-foot">2D：点章节展开 / 收起，悬停看考点结论，点叶子直达对应学科页；3D：按住拖拽旋转、滚轮缩放，点任意节点跳转复习。</div>
     </div>
   </section>
 </div>
@@ -1321,6 +1335,7 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
 <div id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/echarts@5.5.0/dist/echarts.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
 <script>
 /* ===== 工具函数 ===== */
 function $(s){ return document.querySelector(s); }
@@ -1417,19 +1432,120 @@ var MAP_DATA = {
     {name:'第3章第1节 激素调节', children:[{name:'激素化学本质速查'},{name:'下丘脑–垂体–腺体分级调控'},{name:'反馈调节与靶细胞特异性'}]}
   ]}
 };
-var mapChart = null, mapSubj = 'yuwen', mapInited = false;
+var mapChart = null, mapSubj = 'yuwen', mapInited = false, mapMode = '2d';
+var SUBJ = {yuwen:'#/yuwen', shuxue:'#/shuxue', yingyu:'#/yingyu', wuli:'#/wuli', huaxue:'#/huaxue', shengwu:'#/shengwu'};
+var MAP_TIPS = {
+  yuwen: {
+    '纪实作品 · 精神传承':'第一单元：从长征、焦裕禄到抗疫，讲「中国精神的时代接力」与青年使命。',
+    '写作角度：个体与家国':'以小人物见证大时代，个人奋斗与民族复兴同频共振。',
+    '讲好中国故事':'用好纪实细节（雪山草地、藤椅、请战书）作作文素材。',
+    '《论语》十二章（必背）':'高考必背篇目，重点：「士不可以不弘毅」「见贤思齐」「己所不欲勿施于人」。',
+    '《大学之道》《老子》四章':'背诵 + 实词：「明明德」「格物致知」「自矜者不长」；注意通假与活用。',
+    '《兼爱》《五石之瓠》':'比较「兼爱」与儒家「仁爱」之别；庄子寓言以虚衬实、以无用为大用。',
+    '文言句式：判断 / 被动 / 倒装':'「者…也」「为…所」「何以」宾语前置；翻译先还原语序。',
+    '断句四法：虚词 / 对话 / 句式 / 对称':'句首「夫盖惟凡」，句末「也矣焉耳」，见「曰云言」处断，四六骈偶必断。',
+    '翻译：字字落实 · 直译为主':'实词活用、虚词用法、特殊句式是采分点，专有名词保留不译。',
+    '《屈原列传》《苏武传》人物形象':'屈原忠贞不渝、苏武坚守气节；人物精神与细节描写并考。',
+    '《春江花月夜》意象与哲理':'春、江、花、月、夜五意象交织；「人生代代无穷已」叩问永恒。',
+    '引–议–联–结结构':'引材料亮观点 → 分层论证 → 联系现实 → 回扣升华。',
+    '素材运用与论点句':'每段首句亮分论点；素材 3–5 个反复用熟，忌堆砌。'
+  },
+  shuxue: {
+    '线性运算与坐标运算':'加减数乘按坐标分量；几何向量用「首尾相连」回路法翻译。',
+    '数量积 a·b=|a||b|cosθ':'求夹角、垂直判断首选；坐标形式 = 对应分量积之和。',
+    '投影法翻译数量积':'a·b = |a| × 投影长；求最值先画几何投影，别盲算。',
+    '垂直 ⟺ a·b=0':'非零向量垂直的充要条件，直接判定。',
+    '共线共面 · 系数和为 1':'三点共线 x+y=1；四点共面 λ+μ+ν=1（同一起点出发），秒判。',
+    '基底与坐标表示':'选不共面三向量作基底，其余向量唯一表示。',
+    '建系：找两两垂直的三线':'优先墙角、底面矩形 / 直角三角形，建系降计算量。',
+    '法向量：待定系数 / 叉积':'两垂直向量叉积更快；待定系数注意取非零解。',
+    '线面角 sinθ=|a·n|/(|a||n|)':'方向向量与法向量夹角余弦的绝对值。',
+    '二面角：法向量夹角或其补角':'先判二面角锐钝，再取夹角或补角。',
+    '点到面距离 |PA·n|/|n|':'P 为面上任一点，A 为目标点。',
+    '正四面体高频数据':'棱长 a：高 √6/3·a，外接球 √6/4·a，内切球 √6/12·a，对棱垂直。'
+  },
+  yingyu: {
+    'U1 commit / object / evaluate':'commit→commitment；object to doing；evaluate→evaluation n.。',
+    'U2 persuade / switch / distant':'persuade sb to do；switch on / off；distant 遥远的。',
+    'U3–U5 词形变化速查':'distinct→distinction；relativity→relative；passion→passionate；consequence→consequently。',
+    '高一高频词回炉':'每日 20 分钟滚动背，识记为主，重点看高频搭配。',
+    '虚拟语气：insist 两义两语气':'坚持主张用 (should)+原形；坚持说 / 认为用陈述语气。',
+    'suggest 类 (should)+动词原形':'suggest / advise / recommend + that + (should) do；表「暗示」用陈述。',
+    'It is high time + 过去式':'It is (high) time that + 过去式或 should + 原形。',
+    '非谓语 used to / Consisting of':'used to do 过去常常；Consisting of… 分词短语作定语。',
+    'how 宾语从句 / it 形式主语':'how I know what is going on…；it 作形式主语避免头重脚轻。',
+    '作文高分句型与衔接词':'倒装 / 强调句 + 过渡词（however / furthermore / from my perspective）。'
+  },
+  wuli: {
+    '电荷守恒与库仑定律':'F=kQq/r² 平方反比；动态平衡考受力分析基本功。',
+    '电场强度 E=F/q':'比值定义，与试探电荷无关；类比 a=F/m 帮助理解。',
+    '场强叠加：对称 / 割补 / 微元':'对称定方向、割补补缺口、微元积分叠加。',
+    '等量同 / 异种电荷分布':'连线中垂线对称；异种电荷中垂线是 0 电势等势面。',
+    '静电平衡与静电屏蔽':'导体内部场强为 0，净电荷只分布在外表面。',
+    '电势判断四法':'电场线方向 / 场源正负 / 电势能大小 / 静电力做功（W=qU 代正负）。',
+    '电势能变化 W=qU 代正负':'电场力正功电势能减小；q、U 带符号算 U_AB 正负。',
+    'U=Ed 沿场强方向投影':'d 为沿电场线方向距离；等势面之间取垂直距离。',
+    '电容器动态分析':'恒压看 C、Q 变化；断电源 Q 不变、U 随 C 反变。',
+    '带电粒子在电场中运动':'类平抛用运动分解；示波管模型常考。',
+    '电流 · 电阻 · 串并联':'欧姆定律、电阻定律 R=ρL/S、串并联规律。',
+    '电表改装与读数':'电流表并联小电阻扩量程；电压表串联大电阻扩量程。'
+  },
+  huaxue: {
+    '放热 / 吸热反应判断':'燃烧、中和、大多化合放热；分解、C+CO₂ 等吸热，特例优先背。',
+    '热化学方程式书写':'标注聚集状态、ΔH 数值与正负；计量数变 ΔH 等比例变。',
+    '燃烧热：25℃ 101kPa 1mol':'1 mol 纯物质完全燃烧生成指定产物（C→CO₂，H→H₂O 液态）。',
+    '中和热测定实验':'保温隔热、测混合后最高温度、ΔH=−(m酸+m碱)·c·Δt/n 代负号。',
+    'ΔH：总能量差 / 键能 / 盖斯定律':'E生−E反；断键吸−成键放；方程式相加减 ΔH 同步运算。',
+    '化学反应速率与计算':'v=Δc/Δt；不同物质速率之比等于化学计量数之比。',
+    '平衡状态判断':'正逆速率相等、各组分浓度不再改变。',
+    '平衡常数 K 只随温度变':'浓度、压强、催化剂不改变 K。',
+    'Q 与 K 比较判移动':'Q>K 逆向、Q<K 正向、Q=K 恰好平衡。',
+    '勒夏特列原理与图像':'条件改变平衡向减弱方向移动；图像看拐点与斜率。'
+  },
+  shengwu: {
+    '体液与内环境组成':'内环境 = 细胞外液 = 血浆 + 组织液 + 淋巴液。',
+    '外分泌液不属体液':'汗液、泪液、尿液、消化液经管道排出，不属于体液。',
+    '稳态调节机制与意义':'神经–体液–免疫调节网络维持内环境稳态。',
+    '反射弧五环节':'感受器 → 传入神经 → 神经中枢 → 传出神经 → 效应器。',
+    '静息 K⁺ 外流 · 动作 Na⁺ 内流':'两者均协助扩散；静息外正内负、动作内正外负。',
+    '兴奋在神经纤维上传导':'局部电流双向传导；膜内电流方向与兴奋传导一致。',
+    '突触传递与神经递质':'电信号→化学信号→电信号；单向传递、突触延搁。',
+    '分级调节':'高级中枢调控低级中枢，如大脑皮层对脊髓的控制。',
+    '激素化学本质速查':'甲状腺激素氨基酸衍生物；胰岛素、胰高血糖素蛋白质；性激素固醇。',
+    '下丘脑–垂体–腺体分级调控':'下丘脑 → 垂体 → 甲状腺 / 肾上腺轴，层层调控。',
+    '反馈调节与靶细胞特异性':'激素只与靶细胞受体结合，发挥作用后立即被灭活。'
+  }
+};
 function ensureMap(){
   if (!window.echarts){ return; }
   if (mapInited){ mapChart.resize(); return; }
   mapInited = true;
   mapChart = echarts.init(document.getElementById('mapChart'));
+  mapChart.on('click', function(p){
+    if (p && p.data && p.data.url){ location.hash = p.data.url; }
+  });
   renderMap();
+}
+function cloneTree(s){
+  var root = JSON.parse(JSON.stringify(MAP_DATA[s]));
+  function walk(node){
+    if (node.children){ node.children.forEach(walk); }
+    else {
+      node.url = SUBJ[s];
+      node.tip = (MAP_TIPS[s] && MAP_TIPS[s][node.name]) ? MAP_TIPS[s][node.name] : '';
+    }
+  }
+  walk(root);
+  return root;
 }
 function renderMap(){
   if (!mapChart) return;
-  var d = MAP_DATA[mapSubj];
+  if (mapMode === '3d'){ renderMap3D(); } else { renderMap2D(); }
+}
+function renderMap2D(){
+  var d = cloneTree(mapSubj);
   mapChart.setOption({
-    tooltip:{trigger:'item', triggerOn:'mousemove', backgroundColor:'#162B47', borderColor:'#C99A3C', borderWidth:1, textStyle:{color:'#fff', fontSize:12.5}, formatter:function(p){ return '<b>' + p.name + '</b>'; }},
+    tooltip:{trigger:'item', triggerOn:'mousemove', backgroundColor:'#162B47', borderColor:'#C99A3C', borderWidth:1, textStyle:{color:'#fff', fontSize:12.5}, formatter:function(p){ return '<b>' + p.name + '</b>' + (p.data.tip ? '<br><span style="color:#EFD9A6;font-size:12px;line-height:1.6">' + p.data.tip + '</span>' : '<br><span style="color:#EFD9A6">点击跳转到学科页</span>'); }},
     series:[{type:'tree', data:[d], top:'4%', left:'12%', bottom:'4%', right:'22%',
       symbol:'circle',
       symbolSize:function(v, p){ return p.data.depth === 0 ? 18 : (p.data.depth === 1 ? 11 : 7); },
@@ -1443,11 +1559,208 @@ function renderMap(){
     }]
   }, true);
 }
+function build3D(s){
+  var nodes = [], edges = [], R1 = 55, R2 = 112;
+  nodes.push({name:MAP_DATA[s].name, depth:0, pos:[0,0,0], size:20, url:SUBJ[s]});
+  var chs = MAP_DATA[s].children, n = chs.length;
+  chs.forEach(function(ch, i){
+    var phi = Math.acos(1 - 2 * (i + 0.5) / n), th = 2 * Math.PI * i / n;
+    var x = R1 * Math.sin(phi) * Math.cos(th), y = R1 * Math.cos(phi), z = R1 * Math.sin(phi) * Math.sin(th);
+    var L = Math.sqrt(x*x + y*y + z*z), ux = x/L, uy = y/L, uz = z/L;
+    nodes.push({name:ch.name, depth:1, pos:[x,y,z], size:12, url:SUBJ[s]});
+    var n1 = nodes.length - 1;
+    edges.push({source:0, target:n1});
+    ch.children.forEach(function(leaf, j){
+      var a1 = Math.PI * 2 * j / ch.children.length, a2 = (j % 2 ? 0.7 : -0.7);
+      var px = ux * R2 + Math.sin(a1) * 30, py = uy * R2 + a2 * 24, pz = uz * R2 + Math.cos(a1) * 30;
+      nodes.push({name:leaf.name, depth:2, pos:[px, py, pz], size:7, url:SUBJ[s],
+        tip:(MAP_TIPS[s] && MAP_TIPS[s][leaf.name]) ? MAP_TIPS[s][leaf.name] : ''});
+      edges.push({source:n1, target:nodes.length - 1});
+    });
+  });
+  return {nodes:nodes, edges:edges};
+}
+function webglOk(){
+  try {
+    var c = document.createElement('canvas');
+    return !!(window.WebGLRenderingContext && (c.getContext('webgl') || c.getContext('experimental-webgl')));
+  } catch(e){ return false; }
+}
+function hideTip(){ var t = document.getElementById('mapTip'); if (t){ t.style.display = 'none'; } }
+function backTo2D(){
+  mapMode = '2d';
+  $$('#mapModes button').forEach(function(x){ x.classList.toggle('on', x.dataset.mode === '2d'); });
+  hideTip();
+  renderMap2D();
+}
+var threeMap = null;
+function renderMap2D(){
+  document.getElementById('mapChart').classList.remove('hide');
+  var m3 = document.getElementById('map3D');
+  m3.classList.remove('on');
+  if (threeMap){ threeMap.paused = true; }
+  hideTip();
+  var d = cloneTree(mapSubj);
+  mapChart.setOption({
+    tooltip:{trigger:'item', triggerOn:'mousemove', backgroundColor:'#162B47', borderColor:'#C99A3C', borderWidth:1, textStyle:{color:'#fff', fontSize:12.5}, formatter:function(p){ return '<b>' + p.name + '</b>' + (p.data.tip ? '<br><span style="color:#EFD9A6;font-size:12px;line-height:1.6">' + p.data.tip + '</span>' : '<br><span style="color:#EFD9A6">点击跳转到学科页</span>'); }},
+    series:[{type:'tree', data:[d], top:'4%', left:'12%', bottom:'4%', right:'22%',
+      symbol:'circle',
+      symbolSize:function(v, p){ return p.data.depth === 0 ? 18 : (p.data.depth === 1 ? 11 : 7); },
+      expandAndCollapse:true, initialTreeDepth:2,
+      label:{position:'left', verticalAlign:'middle', align:'right', fontSize:13, color:'#1E3A5F', fontWeight:600, formatter:function(p){ return p.name.length > 14 ? p.name.slice(0,13) + '…' : p.name; }},
+      leaves:{label:{position:'right', verticalAlign:'middle', align:'left', fontSize:12.5, color:'#3A5578', formatter:function(p){ return p.name.length > 16 ? p.name.slice(0,15) + '…' : p.name; }}},
+      lineStyle:{color:'#C99A3C', width:1.6, curveness:.5, shadowBlur:8, shadowColor:'rgba(201,154,60,.5)'},
+      itemStyle:{color:function(p){ return p.data.depth === 0 ? '#C99A3C' : '#162B47'; }, borderColor:'#FFFFFF', borderWidth:2, shadowBlur:10, shadowColor:'rgba(201,154,60,.55)'},
+      emphasis:{focus:'descendant', itemStyle:{shadowBlur:22, shadowColor:'rgba(201,154,60,.8)'}, lineStyle:{shadowBlur:12, shadowColor:'rgba(201,154,60,.7)'}, label:{color:'#0F2440', fontWeight:700}},
+      animationDuration:650, animationEasing:'cubicOut'
+    }]
+  }, true);
+  setTimeout(function(){ mapChart.resize(); }, 120);
+}
+function makeLabel(txt){
+  var cv = document.createElement('canvas'), ctx = cv.getContext('2d');
+  cv.width = 300; cv.height = 64;
+  ctx.font = '600 27px "Noto Sans SC","Microsoft YaHei",sans-serif';
+  ctx.textBaseline = 'middle'; ctx.textAlign = 'center';
+  var tw = ctx.measureText(txt).width + 46;
+  var w = Math.max(150, tw), x0 = (cv.width - w) / 2;
+  function rr(x, y, w, h, r){ ctx.beginPath(); ctx.moveTo(x + r, y); ctx.arcTo(x + w, y, x + w, y + h, r); ctx.arcTo(x + w, y + h, x, y + h, r); ctx.arcTo(x, y + h, x, y, r); ctx.arcTo(x, y, x + w, y, r); ctx.closePath(); }
+  ctx.fillStyle = 'rgba(255,255,255,.92)'; rr(x0, 6, w, 52, 26); ctx.fill();
+  ctx.strokeStyle = 'rgba(201,154,60,.65)'; ctx.lineWidth = 2.5; rr(x0, 6, w, 52, 26); ctx.stroke();
+  ctx.fillStyle = '#162B47'; ctx.fillText(txt, cv.width / 2, 32);
+  var tex = new THREE.CanvasTexture(cv);
+  tex.needsUpdate = true;
+  var sp = new THREE.Sprite(new THREE.SpriteMaterial({map:tex, transparent:true, depthTest:false}));
+  sp.scale.set(w / cv.height * 0.62, 0.62, 1);
+  return sp;
+}
+function renderMap3D(){
+  document.getElementById('mapChart').classList.add('hide');
+  var m3 = document.getElementById('map3D');
+  m3.classList.add('on');
+  if (!window.THREE || !webglOk()){ backTo2D(); return; }
+  if (threeMap){
+    threeMap.paused = false;
+    threeMap.rebuild(mapSubj);
+    return;
+  }
+  threeMap = init3D();
+}
+function init3D(){
+  var container = document.getElementById('map3D');
+  var W = container.clientWidth || 900, H = container.clientHeight || 520;
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(45, W / H, 1, 2000);
+  camera.position.set(0, 0, 380); camera.lookAt(0, 0, 0);
+  var renderer = new THREE.WebGLRenderer({antialias:true, alpha:true});
+  renderer.setSize(W, H); renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+  container.appendChild(renderer.domElement);
+  scene.add(new THREE.AmbientLight(0xffffff, .72));
+  var dl1 = new THREE.DirectionalLight(0xfff2d8, .85); dl1.position.set(120, 170, 200); scene.add(dl1);
+  var dl2 = new THREE.DirectionalLight(0x9cc8ff, .5); dl2.position.set(-150, -90, -130); scene.add(dl2);
+  var group = new THREE.Group(); scene.add(group);
+  var raycaster = new THREE.Raycaster(), mouse = new THREE.Vector2();
+  var tipEl = document.getElementById('mapTip');
+  var hovered = null;
+  var auto = true, dragging = false, lx = 0, ly = 0, paused = false;
+  var state = {paused:false};
+  function rebuild(subj){
+    while (group.children.length){ group.remove(group.children[0]); }
+    var g = build3D(subj);
+    g.nodes.forEach(function(n){
+      var geo, mat;
+      if (n.depth === 0){ geo = new THREE.SphereGeometry(17, 32, 32); mat = new THREE.MeshPhongMaterial({color:0xC99A3C, emissive:0x6b4e14, emissiveIntensity:.4, shininess:90}); }
+      else if (n.depth === 1){ geo = new THREE.SphereGeometry(10, 24, 24); mat = new THREE.MeshPhongMaterial({color:0x2A4D7A, emissive:0x162B47, emissiveIntensity:.45, shininess:70}); }
+      else { geo = new THREE.SphereGeometry(6.5, 16, 16); mat = new THREE.MeshPhongMaterial({color:0x3E6BA8, emissive:0x1E3A5F, emissiveIntensity:.5, shininess:60}); }
+      var m = new THREE.Mesh(geo, mat);
+      m.position.set(n.pos[0], n.pos[1], n.pos[2]);
+      m.userData = {url:n.url, tip:n.tip || '', name:n.name};
+      group.add(m);
+      if (n.depth === 1){
+        var sp = makeLabel(n.name);
+        sp.position.set(n.pos[0] + 26, n.pos[1] + 4, n.pos[2]);
+        group.add(sp);
+      }
+    });
+    g.edges.forEach(function(e){
+      var a = g.nodes[e.source], b = g.nodes[e.target];
+      var line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([
+        new THREE.Vector3(a.pos[0], a.pos[1], a.pos[2]),
+        new THREE.Vector3(b.pos[0], b.pos[1], b.pos[2])
+      ]), new THREE.LineBasicMaterial({color:0xC99A3C, transparent:true, opacity:.5}));
+      group.add(line);
+    });
+  }
+  function pick(e){
+    var r = container.getBoundingClientRect();
+    mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    mouse.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var hits = raycaster.intersectObjects(group.children, false);
+    var found = hits.length ? hits[0].object : null;
+    if (found && found.userData && found.userData.name){
+      if (hovered !== found){ if (hovered){ hovered.scale.setScalar(1); } hovered = found; found.scale.setScalar(1.45); }
+      tipEl.textContent = found.userData.tip ? (found.userData.name + '：' + found.userData.tip) : found.userData.name;
+      tipEl.style.display = 'block';
+      tipEl.style.left = Math.min(e.clientX + 16, window.innerWidth - 360) + 'px';
+      tipEl.style.top = (e.clientY + 12) + 'px';
+    } else {
+      if (hovered){ hovered.scale.setScalar(1); hovered = null; }
+      tipEl.style.display = 'none';
+    }
+  }
+  container.addEventListener('mousemove', pick);
+  container.addEventListener('click', function(e){
+    var r = container.getBoundingClientRect();
+    mouse.x = ((e.clientX - r.left) / r.width) * 2 - 1;
+    mouse.y = -((e.clientY - r.top) / r.height) * 2 + 1;
+    raycaster.setFromCamera(mouse, camera);
+    var hits = raycaster.intersectObjects(group.children, false);
+    if (hits.length && hits[0].object.userData && hits[0].object.userData.url){
+      location.hash = hits[0].object.userData.url;
+    }
+  });
+  container.addEventListener('mousedown', function(e){ dragging = true; auto = false; lx = e.clientX; ly = e.clientY; });
+  window.addEventListener('mouseup', function(){ dragging = false; setTimeout(function(){ auto = true; }, 900); });
+  container.addEventListener('mousemove', function(e){
+    if (!dragging) return;
+    var dx = e.clientX - lx, dy = e.clientY - ly;
+    lx = e.clientX; ly = e.clientY;
+    group.rotation.y += dx * 0.006;
+    group.rotation.x = Math.max(-1.25, Math.min(1.25, group.rotation.x + dy * 0.006));
+  });
+  container.addEventListener('wheel', function(e){ e.preventDefault(); camera.position.z = Math.max(190, Math.min(760, camera.position.z + e.deltaY * 0.35)); }, {passive:false});
+  container.addEventListener('touchstart', function(e){ if (e.touches.length === 1){ dragging = true; auto = false; lx = e.touches[0].clientX; ly = e.touches[0].clientY; } }, {passive:true});
+  container.addEventListener('touchmove', function(e){ if (!dragging || e.touches.length !== 1) return; var t = e.touches[0]; var dx = t.clientX - lx, dy = t.clientY - ly; lx = t.clientX; ly = t.clientY; group.rotation.y += dx * 0.006; group.rotation.x = Math.max(-1.25, Math.min(1.25, group.rotation.x + dy * 0.006)); }, {passive:true});
+  container.addEventListener('touchend', function(){ dragging = false; setTimeout(function(){ auto = true; }, 900); });
+  function tick(){
+    if (!paused){
+      if (auto){ group.rotation.y += 0.0035; }
+      renderer.render(scene, camera);
+    }
+    requestAnimationFrame(tick);
+  }
+  rebuild(mapSubj);
+  tick();
+  window.addEventListener('resize', function(){
+    var w = container.clientWidth || 900, h = container.clientHeight || 520;
+    camera.aspect = w / h; camera.updateProjectionMatrix(); renderer.setSize(w, h);
+  });
+  return {paused:false, rebuild:rebuild, container:container};
+}
 document.addEventListener('click', function(e){
   var b = e.target.closest('#mapTabs button');
   if (b){
     $$('#mapTabs button').forEach(function(x){ x.classList.toggle('on', x === b); });
     mapSubj = b.dataset.subj;
+    if (mapInited){ renderMap(); }
+  }
+});
+document.addEventListener('click', function(e){
+  var m = e.target.closest('#mapModes button');
+  if (m){
+    $$('#mapModes button').forEach(function(x){ x.classList.toggle('on', x === m); });
+    mapMode = m.dataset.mode;
     if (mapInited){ renderMap(); }
   }
 });
