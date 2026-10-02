@@ -25,7 +25,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth;scroll-padding-top:66px}
-body{font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Microsoft YaHei","PingFang SC",sans-serif;background:var(--bg);color:var(--ink);line-height:1.75;font-size:15px}
+body{font-family:"Noto Sans SC",-apple-system,BlinkMacSystemFont,"Microsoft YaHei","PingFang SC",sans-serif;background-color:var(--bg);background-image:radial-gradient(rgba(30,58,95,.05) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);line-height:1.75;font-size:15px}
 h1,h2,h3{font-family:"Noto Serif SC",Georgia,"Songti SC","SimSun",serif;line-height:1.3;color:var(--navy-deep)}
 a{color:inherit;text-decoration:none}
 ::selection{background:var(--gold-soft)}
@@ -49,11 +49,12 @@ a{color:inherit;text-decoration:none}
 
 /* ===== Hero（首页） ===== */
 .hero{position:relative;overflow:hidden;background:radial-gradient(1200px 500px at 78% -20%,#24497a 0%,transparent 55%),radial-gradient(900px 420px at -10% 110%,rgba(201,154,60,.16) 0%,transparent 55%),linear-gradient(135deg,var(--navy-deep),var(--navy) 70%);color:#fff;padding:48px 0 42px;border-radius:0 0 22px 22px}
+.hero::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.032) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.032) 1px,transparent 1px);background-size:46px 46px;pointer-events:none}
 .hero::after{content:"";position:absolute;right:-60px;top:-80px;width:320px;height:320px;border:1.5px solid rgba(255,255,255,.08);border-radius:50%;box-shadow:0 0 0 46px rgba(255,255,255,.04),0 0 0 92px rgba(255,255,255,.03);pointer-events:none}
 .hero .wrap{display:grid;grid-template-columns:1.4fr 1fr;gap:32px;align-items:center;position:relative;z-index:1}
 .kicker{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;letter-spacing:.12em;color:#cfe0f2;text-transform:uppercase}
 .kicker .dot{width:8px;height:8px;border-radius:50%;background:var(--gold)}
-.hero h1{color:#fff;font-size:clamp(30px,4.6vw,44px);margin:14px 0 16px;font-weight:900;letter-spacing:.02em}
+.hero h1{font-size:clamp(32px,5vw,48px);margin:14px 0 16px;font-weight:900;letter-spacing:.02em;background:linear-gradient(180deg,#FFFFFF 26%,#EFD9A6 82%);-webkit-background-clip:text;background-clip:text;color:transparent}
 .hero p.lead{color:#c9d7e6;max-width:36em;font-size:14.5px}
 .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .meta span{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.18);padding:4px 12px;border-radius:999px;font-size:12.5px;color:#e8f0f7}
@@ -72,7 +73,7 @@ a{color:inherit;text-decoration:none}
 /* ===== Section base ===== */
 section{padding:36px 0 8px}
 .sec-head{display:flex;align-items:flex-end;gap:14px;margin-bottom:18px}
-.sec-head .no{font-family:"Noto Serif SC",serif;font-size:26px;font-weight:900;color:var(--gold);line-height:1}
+.sec-head .no{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(150deg,var(--navy),var(--navy-deep));color:var(--gold);font-family:"Noto Serif SC",serif;font-size:18px;font-weight:900;line-height:1;box-shadow:0 6px 16px rgba(30,58,95,.22),inset 0 1px 0 rgba(255,255,255,.14);flex:none}
 .sec-head h2{font-size:22px}
 .sec-head p{color:var(--ink-soft);font-size:13px;margin-top:2px}
 .sec-head .rule{flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent);margin-bottom:9px}
@@ -80,7 +81,7 @@ section{padding:36px 0 8px}
 /* ===== 首页选科翻转卡 ===== */
 .subj-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .sc{perspective:1100px;height:210px;cursor:pointer;transition:transform .25s ease}
-.sc:hover{transform:translateY(-4px)}
+.sc:hover{transform:translateY(-5px);box-shadow:0 0 0 1.5px rgba(201,154,60,.75),0 16px 34px rgba(30,45,70,.16)}
 .sc-inner{position:relative;width:100%;height:100%;transition:transform .55s;transform-style:preserve-3d}
 .sc.flip .sc-inner{transform:rotateY(180deg)}
 .sc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;padding:18px;box-shadow:var(--shadow);border:1px solid var(--line);display:flex;flex-direction:column}
@@ -90,7 +91,7 @@ section{padding:36px 0 8px}
 .sc-front h3{font-size:19px;color:var(--navy)}
 .sc-front .range{font-size:12.5px;color:var(--ink-soft);margin-top:4px}
 .sc-front .flip-hint{font-size:11.5px;color:var(--ink-soft);display:flex;align-items:center;gap:6px}
-.sc-back{background:linear-gradient(160deg,#fff,var(--sc-soft));transform:rotateY(180deg)}
+.sc-back{background:linear-gradient(160deg,#fff,var(--sc-soft));transform:rotateY(180deg);border-top:3px solid var(--gold)}
 .sc-back .pts{font-size:12.5px;color:var(--ink);margin:6px 0 4px}
 .sc-back .pts li{margin:4px 0 4px 14px}
 .sc-back .go{margin-top:auto;border:none;background:var(--sc);color:#fff;padding:9px 0;border-radius:10px;font-size:13.5px;font-weight:700;cursor:pointer;font-family:inherit;transition:.2s}
@@ -115,7 +116,7 @@ section{padding:36px 0 8px}
 /* ===== 通用翻卡组件 ===== */
 .fc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
 .fc{perspective:1000px;height:150px;cursor:pointer;transition:transform .25s ease}
-.fc:hover{transform:translateY(-4px)}
+.fc:hover{transform:translateY(-5px);box-shadow:0 0 0 1.5px rgba(201,154,60,.7),0 12px 28px rgba(30,45,70,.14)}
 .fc-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
 .fc.flip .fc-inner{transform:rotateY(180deg)}
 .fc-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;padding:14px 16px;border:1px solid var(--line);box-shadow:var(--shadow);display:flex;flex-direction:column;justify-content:center;overflow:hidden}
@@ -123,7 +124,7 @@ section{padding:36px 0 8px}
 .fc-front .no{font-size:11px;letter-spacing:.08em;color:var(--sc);font-weight:700;margin-bottom:6px}
 .fc-front .t{font-size:14.5px;font-weight:700;color:var(--navy);line-height:1.45}
 .fc-front .tap{position:absolute;right:10px;bottom:8px;font-size:10.5px;color:var(--ink-soft);opacity:.7}
-.fc-back{background:linear-gradient(160deg,#fff,var(--sc-soft));transform:rotateY(180deg)}
+.fc-back{background:linear-gradient(160deg,#fff,var(--sc-soft));transform:rotateY(180deg);border-top:3px solid var(--gold)}
 .fc-back .d{font-size:12.5px;color:var(--ink);line-height:1.7}
 .fc-back .d .hi{color:#8a6420;background:var(--gold-soft);padding:0 4px;border-radius:4px}
 
@@ -150,7 +151,7 @@ section{padding:36px 0 8px}
 .fchip.on{background:var(--navy);border-color:var(--navy);color:#fff}
 .material-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
 .mat-card{perspective:1000px;height:200px;cursor:pointer;transition:transform .25s ease}
-.mat-card:hover{transform:translateY(-4px)}
+.mat-card:hover{transform:translateY(-5px);box-shadow:0 0 0 1.5px rgba(201,154,60,.7),0 12px 28px rgba(30,45,70,.14)}
 .mat-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
 .mat-card.flip .mat-inner{transform:rotateY(180deg)}
 .mat-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:14px;border:1px solid var(--line);box-shadow:var(--shadow);padding:15px 17px;display:flex;flex-direction:column}
@@ -158,7 +159,7 @@ section{padding:36px 0 8px}
 .mat-front .nm{font-family:"Noto Serif SC",serif;font-size:18px;font-weight:900;color:var(--navy)}
 .mat-front .role{font-size:12px;color:var(--ink-soft);margin-top:4px}
 .mat-front .tap{position:absolute;right:12px;bottom:10px;font-size:10.5px;color:var(--ink-soft);opacity:.7}
-.mat-back{background:linear-gradient(160deg,#fff,#FBF7EC);transform:rotateY(180deg)}
+.mat-back{background:linear-gradient(160deg,#fff,#FBF7EC);transform:rotateY(180deg);border-top:3px solid var(--gold)}
 .mat-back .tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
 .mat-back .tags span{font-size:11px;padding:1px 8px;border-radius:999px;background:var(--gold-soft);color:#8a6420}
 .mat-back .pt{font-size:12.5px;color:var(--ink)}
@@ -177,14 +178,14 @@ section{padding:36px 0 8px}
 .fmode.on{background:var(--navy);color:#fff;border-color:var(--navy)}
 .flash-prog{font-size:12.5px;color:var(--ink-soft)}
 .flash-card{perspective:1200px;height:230px;cursor:pointer;margin-bottom:14px;transition:transform .25s ease}
-.flash-card:hover{transform:translateY(-3px)}
+.flash-card:hover{transform:translateY(-4px);box-shadow:0 0 0 1.5px rgba(201,154,60,.7),0 12px 28px rgba(30,45,70,.14)}
 .flash-inner{position:relative;width:100%;height:100%;transition:transform .5s;transform-style:preserve-3d}
 .flash-card.flip .flash-inner{transform:rotateY(180deg)}
 .flash-face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:20px;border:1px solid var(--line);box-shadow:var(--shadow)}
 .flash-front{background:linear-gradient(135deg,#fff,#F4F7FB)}
 .flash-front .word{font-family:"Noto Serif SC",serif;font-size:30px;font-weight:900;color:var(--navy);text-align:center}
 .flash-front .pos{font-size:13px;color:var(--ink-soft)}
-.flash-back{background:linear-gradient(135deg,#FBF7EC,#fff);transform:rotateY(180deg)}
+.flash-back{background:linear-gradient(135deg,#FBF7EC,#fff);transform:rotateY(180deg);border-top:3px solid var(--gold)}
 .flash-back .mean{font-size:22px;font-weight:700;color:var(--ink);text-align:center}
 .flash-back .eg{font-size:13px;color:var(--ink-soft);text-align:center;max-width:90%}
 .flash-hint{text-align:center;font-size:12px;color:var(--ink-soft);margin-bottom:12px}
@@ -251,7 +252,7 @@ section{padding:36px 0 8px}
 #timeChart{width:100%;height:320px}
 
 /* ===== Footer / toTop ===== */
-footer{margin-top:40px;padding:24px 0 30px;border-top:1px solid var(--line);color:var(--ink-soft);font-size:12px;text-align:center}
+footer{margin-top:40px;padding:24px 0 30px;border-top:2px solid transparent;border-image:linear-gradient(90deg,transparent 5%,rgba(201,154,60,.55) 50%,transparent 95%) 1;color:var(--ink-soft);font-size:12px;text-align:center}
 footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
 #toTop{position:fixed;right:22px;bottom:26px;width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;border:none;cursor:pointer;display:none;place-items:center;box-shadow:0 6px 16px rgba(30,58,95,.3);z-index:80}
 #toTop.show{display:grid}
@@ -450,6 +451,24 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
       </div>
     </div>
   </section>
+
+  <section id="home-exam">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="no">05</span>
+        <div><h2>考场临场策略</h2><p>会做的全做对，就是超常发挥</p></div>
+        <div class="rule"></div>
+      </div>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 01</span><div class="t">答题顺序</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">先易后难；小题每题限时 2–3 分钟，卡住先标记跳过，做完基础再回头攻坚。</div></div></div></div>
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 02</span><div class="t">审题三遍</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">圈关键词——「恒成立」「恰好」「不计重力」「保留两位小数」；先明确问什么再下笔。</div></div></div></div>
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 03</span><div class="t">步骤分意识</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">物理 / 化学 / 数学大题按「公式 → 代数据 → 结果」完整书写，列式即有分，别跳步。</div></div></div></div>
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 04</span><div class="t">时间分配</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">按分值分配时间，单题难题不超过 15 分钟，给最后检查至少留 10 分钟。</div></div></div></div>
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 05</span><div class="t">检查重点</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">先查计算（数学、化学三段式、物理代数），再查易错点：单位、正负号、有效数字、选择题涂卡位置。</div></div></div></div>
+        <div class="fc" style="--sc:var(--navy);--sc-soft:#EEF3F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">策略 06</span><div class="t">心态保底</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">卡壳时深呼吸、先跳过不恋战；记住「会做的全做对」就是超常发挥，不求每题都会。</div></div></div></div>
+      </div>
+    </div>
+  </section>
 </div>
 
 <!-- ========== 视图：语文 ========== -->
@@ -507,6 +526,15 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
       <div class="count-info" id="matCount">共 15 条</div>
       <div class="material-grid" id="matGrid"></div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>写作模板 · 高分句式（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-yu);--sc-soft:#FBEFEB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 01</span><div class="t">引–议–联–结</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">开篇引材料、亮观点（引）→ 分层论证（议）→ 联系现实与自身（联）→ 回扣升华（结）。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-yu);--sc-soft:#FBEFEB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 02</span><div class="t">递进式结构</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">是什么（定义 / 现象）→ 为什么（原因 / 意义）→ 怎么办（对策 / 做法），层层深入。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-yu);--sc-soft:#FBEFEB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 03</span><div class="t">对照式结构</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">正例反例对比论证突出主题；每段先摆事实、再析道理，对比句用「反观 / 与此相反」衔接。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-yu);--sc-soft:#FBEFEB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 04</span><div class="t">高分开头结尾</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">开头：设问式（"何谓……？"）、名言引出、场景代入；结尾：首尾呼应、点题升华，忌喊口号。</div></div></div></div>
+      </div>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-yuwen"></i></div><span class="pct" id="pct-yuwen">0 / 3</span></div>
       <div class="check-grid" id="ck-yuwen"></div>
@@ -553,6 +581,15 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">结论 05</span><div class="t">平行 / 垂直向量判定</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">线线平行→方向向量共线；线面平行→方向向量⊥法向量；面面垂直→两法向量数量积为 0。</div></div></div></div>
         <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">结论 06</span><div class="t">四点共面充要条件</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">P∈平面ABC ⇔ 存在 x+y+z=1，使 <span class="hi">OP = xOA + yOB + zOC</span>。</div></div></div></div>
         <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">结论 07</span><div class="t">常见几何体建系</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">长方体 / 正方体取三条共点棱为轴；正棱锥取底面中心为原点、底面为 xOy 面。</div></div></div></div>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>常考题型 · 规范步骤（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 01</span><div class="t">向量法证线面垂直</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">取面内两相交向量→证方向向量与二者点积均为 0→写明「垂直于面内两条相交直线，故垂直于平面」。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 02</span><div class="t">线面角完整步骤</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">建系→求方向向量与法向量→<span class="hi">sinθ=|cos&lt;方向,法&gt;|</span>→注明 θ∈[0, π/2]。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 03</span><div class="t">二面角完整步骤</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">两平面法向量→求 cos&lt;n₁,n₂&gt;→由图形判锐 / 钝角→定 cos 符号→作答。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-shu);--sc-soft:#EAF1F9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 04</span><div class="t">点到平面距离三步</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">找面内一点 A→求向量 PA 与法向量 n→<span class="hi">d = |PA·n| / |n|</span>。</div></div></div></div>
       </div>
     </div>
     <div class="tracker">
@@ -634,6 +671,19 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">语法 05</span><div class="t">完形 / 语法填空技巧</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">完形先通读抓主旨再带入，看上下文逻辑 + 词汇复现；语法填空有提示词先判词性再变形，无提示词填介词 / 连词 / 冠词 / 代词。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>高分表达 · 固定搭配（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">表达 01</span><div class="t">表观点</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">It is widely acknowledged that… / From my perspective, … / As far as I am concerned, …</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">表达 02</span><div class="t">表因果</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">contribute to / give rise to / as a consequence / owing to</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">表达 03</span><div class="t">表举例</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">take … as an example / a case in point is … / for instance</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">表达 04</span><div class="t">表对比 / 总结</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">by contrast / whereas / compared with；to sum up / in conclusion / all in all</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">搭配 05</span><div class="t">高频固定搭配</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">pay attention to / attach importance to / be devoted to / be fond of</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">搭配 06</span><div class="t">高频固定搭配</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">make a difference / take advantage of / take … into account / keep in mind</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">替换 07</span><div class="t">高级替换 1</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">important → crucial / significant；good → beneficial / favorable；big → tremendous</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-ying);--sc-soft:#EAF4EE"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">替换 08</span><div class="t">高级替换 2</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">many → a variety of；very → extremely / considerably；think → hold the view that</div></div></div></div>
+      </div>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-yingyu"></i></div><span class="pct" id="pct-yingyu">0 / 3</span></div>
       <div class="check-grid" id="ck-yingyu"></div>
@@ -705,6 +755,17 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">方法 04</span><div class="t">电容实验</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">Q–U 图斜率 = 电容 C；充放电电流–时间图像与横轴围成面积 = 电荷量 Q。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>典型模型 · 高频图景（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 01</span><div class="t">等量异种电荷</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">连线中垂面为等势面（取无穷远为 0 时）；中垂线上场强先增后减；连线从 + 到 − 电势一直降低。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 02</span><div class="t">等量同种电荷</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">连线中点场强为 0；中垂线两侧场强先增后减、对称分布；中点电势不为 0。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 03</span><div class="t">点电荷场强叠加</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">E=kQ/r² 逐点求出后按矢量合成（正交分解 / 平行四边形），方向背离正电荷、指向负电荷。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 04</span><div class="t">静电平衡与屏蔽</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">导体内部场强处处为 0（感应电荷完全抵消外电场）；净电荷只分布在外表面。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 05</span><div class="t">电容器动态两类</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">断电源：Q 不变，E 由 Q 与 S 决定；连电源：U 不变，E=U/d；再推 C、Q、E 变化。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-wu);--sc-soft:#EFEDF9"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模型 06</span><div class="t">电源输出特性</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">U–I 图：纵截距 = E、斜率绝对值 = r；<span class="hi">输出功率最大时外电阻 R = r</span>。</div></div></div></div>
+      </div>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-wuli"></i></div><span class="pct" id="pct-wuli">0 / 3</span></div>
       <div class="check-grid" id="ck-wuli"></div>
@@ -765,6 +826,17 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">步骤 04</span><div class="t">套公式</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">速率 v=Δc/Δt；转化率 = 变化 ÷ 起始；K 用平衡浓度代入。</div></div></div></div>
       </div>
     </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>图像判读 · 计算模板（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">图像 01</span><div class="t">v–t 图读突变</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">正逆速率同时突变→温度或催化剂；一个突变一个渐变→浓度；压强改变看气体系数差。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">图像 02</span><div class="t">c–t / 转化率–时间图</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">曲线先变后平→建立平衡；中段出现拐点→条件改变（升温 / 加压 / 加催化剂等）。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">图像 03</span><div class="t">转化率–温度 / 压强</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">曲线上升后下降→先正向后逆向，结合 K–T 关系判断吸放热；斜率突点对应平衡移动拐点。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 04</span><div class="t">三段式求 K</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">写方程式→设变化量 x→列起始 / 变化 / 平衡三行→用平衡浓度代入 K 表达式。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 05</span><div class="t">Q 与 K 判方向</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">Q&gt;K 逆向移动，Q&lt;K 正向移动，Q=K 恰好平衡；温度不变 K 不变。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-hua);--sc-soft:#E7F4F4"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">模板 06</span><div class="t">平衡移动判断流程</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">先看条件改变（浓度 / 压强 / 温度）→ 找受影响的量 → 勒夏特列「只减弱不消除」→ 下结论。</div></div></div></div>
+      </div>
+    </div>
     <div class="tracker">
       <div class="top"><div class="progress"><i id="prog-huaxue"></i></div><span class="pct" id="pct-huaxue">0 / 3</span></div>
       <div class="check-grid" id="ck-huaxue"></div>
@@ -822,6 +894,17 @@ footer .note{max-width:760px;margin:8px auto 0;line-height:1.8}
         <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">读图 02</span><div class="t">反射弧图</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">找神经节或突触方向——突触由「突触前膜 → 突触后膜」，据此判断传入 / 传出。</div></div></div></div>
         <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">读图 03</span><div class="t">内环境成分图</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">血浆 ↔ 组织液 ↔ 淋巴三角关系；<span class="hi">淋巴只能由组织液单向进入</span>，再汇入血浆。</div></div></div></div>
         <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">读图 04</span><div class="t">激素调节图</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">沿「下丘脑 → 垂体 → 靶腺」箭头找分级；回指箭头（负反馈）抑制上游。</div></div></div></div>
+      </div>
+    </div>
+    <div class="kv-block">
+      <h3><span class="tag"></span>概念辨析 · 易混速分（点击翻面）</h3>
+      <div class="fc-grid">
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 01</span><div class="t">内环境成分判断</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">血浆、组织液、淋巴属于；<span class="hi">汗液、尿液、泪液、消化液、消化道内容物不属于</span>。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 02</span><div class="t">静息 vs 动作电位</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">静息：K⁺外流、外正内负；动作：Na⁺内流、外负内正；恢复需 Na⁺-K⁺泵耗 ATP。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 03</span><div class="t">传导方向对比</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">神经纤维上兴奋可双向传导；突触处只能单向传递（递质仅由突触前膜释放）。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 04</span><div class="t">激素 vs 酶 vs 递质</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">激素：体液运输、作用于靶器官；递质：突触间隙扩散、作用于受体；酶：催化反应，三者均不供能。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 05</span><div class="t">神经 vs 体液调节</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">神经：快、准、短；体液：慢、广、长；二者相互配合，<span class="hi">以神经调节为主</span>。</div></div></div></div>
+        <div class="fc" style="--sc:var(--c-sheng);--sc-soft:#EAF4EB"><div class="fc-inner"><div class="fc-face fc-front"><span class="no">辨析 06</span><div class="t">分级 vs 反馈调节</div><span class="tap">点击翻面</span></div><div class="fc-face fc-back"><div class="d">下丘脑 → 垂体 → 靶腺为分级调节；产物增多抑制上游为负反馈（维持稳态的关键）。</div></div></div></div>
       </div>
     </div>
     <div class="tracker">
